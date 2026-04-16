@@ -25,8 +25,7 @@ int main() {
             printf("Goodbye!\n");
             break;
         }
-        
-        // 创建子进程——这就是fork的本质！
+        //int
         pid_t pid = fork();
         
         if (pid < 0) {
@@ -42,7 +41,6 @@ int main() {
             printf("Command not found: %s\n", cmd);
             exit(1);
         } else {
-            // 父进程：等子进程结束——这就是wait的本质
             int status;
             wait(&status);
             printf("Command completed with status %d\n", status);

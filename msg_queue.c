@@ -39,12 +39,12 @@ void* sender1(void* arg) {
     struct msgbuf reply;
     int thread_id = 1;
     
-    printf("Sender%d: Thread started\n", thread_id);
+    
     
     while (1) {
         // ----- 互斥访问终端 -----
         sem_wait(&sem_terminal);
-        
+        printf("Sender%d: Thread started\n", thread_id);
         printf("Sender%d: Enter message (or 'exit' to quit): ", thread_id);
         fflush(stdout);
         
@@ -52,11 +52,11 @@ void* sender1(void* arg) {
             sem_post(&sem_terminal);
             break;
         }
+        sem_post(&sem_terminal);
         // 去掉换行符
         msg.mtext[strcspn(msg.mtext, "\n")] = 0;
         
         // 释放终端
-        sem_post(&sem_terminal);
         // ----------------------
         
         // 检查是否输入exit
@@ -131,22 +131,22 @@ void* sender2(void* arg) {
     struct msgbuf reply;
     int thread_id = 2;
     
-    printf("Sender2: Thread started\n");
     
     while (1) {
         // ----- 互斥访问终端 -----
         sem_wait(&sem_terminal);
-        
-    printf("Sender%d: Enter message (or 'exit' to quit): ", thread_id);
+        printf("Sender2: Thread started\n");
+        printf("Sender%d: Enter message (or 'exit' to quit): ", thread_id);
         fflush(stdout);
         
         if (fgets(msg.mtext, sizeof(msg.mtext), stdin) == NULL) {
             sem_post(&sem_terminal);
             break;
         }
+        sem_post(&sem_terminal);
         msg.mtext[strcspn(msg.mtext, "\n")] = 0;
         
-        sem_post(&sem_terminal);
+        
         // ----------------------
         
         if (strcmp(msg.mtext, "exit") == 0) {

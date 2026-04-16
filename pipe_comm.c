@@ -68,7 +68,7 @@ int main() {
         int bytes = read(pipefd[0], buffer, sizeof(buffer));
         if (bytes <= 0) break;
         total += bytes;
-        printf("Parent: Read %d bytes (total %d)\n", bytes, total);
+        printf("Parent: Read %d bytes (total %d),%s\n", bytes, total,buffer);
     }
     
     printf("Parent: Total bytes read = %d\n", total);
